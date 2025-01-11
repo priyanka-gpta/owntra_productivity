@@ -1,16 +1,16 @@
 // components/productivity/EnergyTracker.jsx
 import React, { useState } from 'react';
-import { Battery, BatteryMedium, BatteryLow, BatteryWarning } from 'lucide-react';
+import { Battery, BatteryMedium, BatteryLow, BatteryCharging } from 'lucide-react';
 
 const EnergyTracker = ({ onEnergyLog }) => {
   const [energyLevel, setEnergyLevel] = useState(null);
   const [note, setNote] = useState('');
 
   const energyLevels = [
-    { value: 100, label: 'High Energy', icon: Battery },
-    { value: 70, label: 'Good Energy', icon: BatteryMedium },
-    { value: 40, label: 'Low Energy', icon: BatteryLow },
-    { value: 10, label: 'Exhausted', icon: BatteryWarning },
+    { value: 100, label: 'High Energy', icon: Battery, color: 'text-green-500' },
+    { value: 70, label: 'Good Energy', icon: BatteryMedium, color: 'text-blue-500' },
+    { value: 40, label: 'Low Energy', icon: BatteryLow, color: 'text-yellow-500' },
+    { value: 10, label: 'Exhausted', icon: BatteryCharging, color: 'text-red-500' },
   ];
 
   const handleSubmit = (e) => {
@@ -19,7 +19,7 @@ const EnergyTracker = ({ onEnergyLog }) => {
       onEnergyLog({
         level: energyLevel,
         note,
-        timestamp: new Date(),
+        timestamp: new Date().toISOString(),
       });
       setNote('');
       setEnergyLevel(null);
@@ -32,22 +32,22 @@ const EnergyTracker = ({ onEnergyLog }) => {
       
       <form onSubmit={handleSubmit}>
         <div className="grid grid-cols-2 gap-4 mb-6">
-          {energyLevels.map(({ value, label, icon: Icon }) => (
+          {energyLevels.map(({ value, label, icon: Icon, color }) => (
             <button
               key={value}
               type="button"
               onClick={() => setEnergyLevel(value)}
-              className={`p-4 rounded-lg border ${
+              className={`p-4 rounded-lg border transition-all duration-200 ${
                 energyLevel === value
                   ? 'border-blue-500 bg-blue-50'
                   : 'border-gray-200 hover:border-gray-300'
               } flex flex-col items-center gap-2`}
             >
               <Icon className={`w-6 h-6 ${
-                energyLevel === value ? 'text-blue-500' : 'text-gray-600'
+                energyLevel === value ? color : 'text-gray-400'
               }`} />
               <span className={`text-sm ${
-                energyLevel === value ? 'text-blue-500' : 'text-gray-600'
+                energyLevel === value ? 'text-blue-500 font-medium' : 'text-gray-600'
               }`}>
                 {label}
               </span>
@@ -72,7 +72,7 @@ const EnergyTracker = ({ onEnergyLog }) => {
             energyLevel === null
               ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
               : 'bg-blue-500 text-white hover:bg-blue-600'
-          }`}
+          } transition-colors duration-200`}
         >
           Log Energy Level
         </button>

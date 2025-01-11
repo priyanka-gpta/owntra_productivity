@@ -2,33 +2,14 @@
 import Header from '../components/layout/Header';
 import Footer from '../components/layout/Footer';
 import FeatureSection from '../components/home/FeatureSection';
-import { ArrowRight, Clock, Brain, ChartLine } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 
 export default function Home() {
-  const features = [
-    {
-      icon: Clock,
-      title: "Smart Task Tracking",
-      description: "Track your tasks with built-in timers that help you understand where your time goes. Complete tasks with satisfaction and build momentum."
-    },
-    {
-      icon: Brain,
-      title: "Energy Management",
-      description: "Monitor your daily energy levels to identify peak productivity periods and optimize your work schedule accordingly."
-    },
-    {
-      icon: ChartLine,
-      title: "Progress Insights",
-      description: "Get detailed reports on your productivity patterns, helping you make data-driven decisions about your work habits."
-    }
-  ];
-
   return (
     <div className="min-h-screen bg-white">
       <Header />
       
-      {/* Hero Section */}
       <main>
         <div className="relative">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
@@ -54,7 +35,7 @@ export default function Home() {
           </div>
         </div>
 
-                <FeatureSection />
+        <FeatureSection />
       </main>
       <Footer />
     </div>

@@ -13,20 +13,28 @@ export default function Productivity() {
 
   // Load data from localStorage on component mount
   useEffect(() => {
-    const savedTime = localStorage.getItem('productiveTime');
-    const savedLogs = localStorage.getItem('energyLogs');
-    const savedTasks = localStorage.getItem('completedTasks');
-    
-    if (savedTime) setProductiveTime(parseInt(savedTime));
-    if (savedLogs) setEnergyLogs(JSON.parse(savedLogs));
-    if (savedTasks) setCompletedTasks(JSON.parse(savedTasks));
+    try {
+      const savedTime = localStorage.getItem('productiveTime');
+      const savedLogs = localStorage.getItem('energyLogs');
+      const savedTasks = localStorage.getItem('completedTasks');
+      
+      if (savedTime) setProductiveTime(parseInt(savedTime));
+      if (savedLogs) setEnergyLogs(JSON.parse(savedLogs));
+      if (savedTasks) setCompletedTasks(JSON.parse(savedTasks));
+    } catch (error) {
+      console.error('Error loading data:', error);
+    }
   }, []);
 
   // Save data to localStorage whenever it changes
   useEffect(() => {
-    localStorage.setItem('productiveTime', productiveTime.toString());
-    localStorage.setItem('energyLogs', JSON.stringify(energyLogs));
-    localStorage.setItem('completedTasks', JSON.stringify(completedTasks));
+    try {
+      localStorage.setItem('productiveTime', productiveTime.toString());
+      localStorage.setItem('energyLogs', JSON.stringify(energyLogs));
+      localStorage.setItem('completedTasks', JSON.stringify(completedTasks));
+    } catch (error) {
+      console.error('Error saving data:', error);
+    }
   }, [productiveTime, energyLogs, completedTasks]);
 
   const handleTaskComplete = (timeSpent) => {
@@ -49,23 +57,19 @@ export default function Productivity() {
       
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="space-y-12">
-          {/* Title */}
           <div className="text-center">
             <h1 className="text-3xl font-bold text-gray-900">Your Productivity Dashboard</h1>
             <p className="mt-2 text-gray-600">Track your tasks, energy, and progress all in one place</p>
           </div>
 
-          {/* Task Timer Section */}
           <section>
             <TaskTimer onTaskComplete={handleTaskComplete} />
           </section>
 
-          {/* Energy Tracker Section */}
           <section>
             <EnergyTracker onEnergyLog={handleEnergyLog} />
           </section>
 
-          {/* Progress Report Section */}
           <section>
             <ProgressReport
               productiveTime={productiveTime}
